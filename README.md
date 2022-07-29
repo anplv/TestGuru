@@ -1,24 +1,11 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+List of entities of the TestGuru project:
 
-Things you may want to cover:
+- Test Users
 
-* Ruby version
+- Test Administrators
 
-* System dependencies
+- Tests
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- Test comments
