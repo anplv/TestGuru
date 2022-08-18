@@ -17,6 +17,6 @@ module TestGuru
     # in config/environments, which are processed later.
     #
     config.time_zone = 'Moscow'
-    I18n.available_locales = :en
+    I18n.available_locales = %i[en ru]
   end
 end
