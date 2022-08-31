@@ -4,41 +4,31 @@
 
 require 'faker'
 
+ITERATIONS = 5
+
 users = []
 tests = []
 categories = []
 answers = []
 questions = []
 
-5.times do
-  users << User.create!(name: Faker::Name.unique.name)
+ITERATIONS.times do
+  users << User.create(name: Faker::Name.unique.name)
 
-  tests << Test.create!(title: Faker::Lorem.unique.sentence(word_count: 1, supplemental: true, random_words_to_add: 5),
-                        level: Faker::Number.within(range: 0..5))
+  tests << Test.create(title: Faker::Lorem.unique.sentence(word_count: 1, supplemental: true, random_words_to_add: ITERATIONS),
+                       level: Faker::Number.within(range: 0..5),
+                       category_id: Faker::Number.within(range: 1..ITERATIONS))
 
   categories << Category.create!(title: Faker::Lorem.unique.sentence(word_count: 1, supplemental: true,
-                                                                     random_words_to_add: 3))
+                                                                     random_words_to_add: 3),
+                                 test_id: Faker::Number.within(range: 1..ITERATIONS))
 
-  answers << Answer.create!(correct: Faker::Boolean.boolean,
-                            body: Faker::Lorem.unique.sentence(word_count: 3, supplemental: true,
-                                                               random_words_to_add: 50))
+  answers << Answer.create(correct: Faker::Boolean.boolean,
+                           body: Faker::Lorem.unique.sentence(word_count: 3, supplemental: true,
+                                                              random_words_to_add: 50),
+                           question_id: Faker::Number.within(range: 1..ITERATIONS))
 
-  questions << Question.create!(body: Faker::Lorem.unique.sentence(word_count: 3, supplemental: true,
-                                                                   random_words_to_add: 50))
-end
-
-tests.each do |test|
-  test.update(category_id: categories.sample.id)
-end
-
-categories.each do |category|
-  category.update(test_id: tests.sample.id)
-end
-
-answers.each do |answer|
-  answer.update(question_id: questions.sample.id)
-end
-
-questions.each do |question|
-  question.update(test_id: tests.sample.id)
+  questions << Question.create(body: Faker::Lorem.unique.sentence(word_count: 3, supplemental: true,
+                                                                  random_words_to_add: 50),
+                               test_id: Faker::Number.within(range: 1..ITERATIONS))
 end
