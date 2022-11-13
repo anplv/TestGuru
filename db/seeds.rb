@@ -6,29 +6,22 @@ require 'faker'
 
 ITERATIONS = 5
 
-users = []
-tests = []
-categories = []
-answers = []
-questions = []
-
 ITERATIONS.times do
-  users << User.create(name: Faker::Name.unique.name)
+  User.create(name: Faker::Name.unique.name)
 
-  tests << Test.create(title: Faker::Lorem.unique.sentence(word_count: 1, supplemental: true, random_words_to_add: ITERATIONS),
-                       level: Faker::Number.within(range: 0..5),
-                       category_id: Faker::Number.within(range: 1..ITERATIONS))
+  category = Category.create!(title: Faker::Lorem.unique.sentence(word_count: 1, supplemental: true,
+                                                                  random_words_to_add: 3))
 
-  categories << Category.create!(title: Faker::Lorem.unique.sentence(word_count: 1, supplemental: true,
-                                                                     random_words_to_add: 3),
-                                 test_id: Faker::Number.within(range: 1..ITERATIONS))
+  test = Test.create(title: Faker::Lorem.unique.sentence(word_count: 1, supplemental: true, random_words_to_add: ITERATIONS),
+                     level: Faker::Number.within(range: 0..5),
+                     category_id: category.id)
 
-  answers << Answer.create(correct: Faker::Boolean.boolean,
-                           body: Faker::Lorem.unique.sentence(word_count: 3, supplemental: true,
-                                                              random_words_to_add: 50),
-                           question_id: Faker::Number.within(range: 1..ITERATIONS))
+  question = Question.create(body: Faker::Lorem.unique.sentence(word_count: 3, supplemental: true,
+                                                                random_words_to_add: 50),
+                             test_id: test.id)
 
-  questions << Question.create(body: Faker::Lorem.unique.sentence(word_count: 3, supplemental: true,
-                                                                  random_words_to_add: 50),
-                               test_id: Faker::Number.within(range: 1..ITERATIONS))
+  Answer.create(correct: Faker::Boolean.boolean,
+                body: Faker::Lorem.unique.sentence(word_count: 3, supplemental: true,
+                                                   random_words_to_add: 50),
+                question_id: question.id)
 end
